@@ -87,9 +87,7 @@ public class Bullet : NetworkBehaviour
             return;
         }
 
-
         Collider2D[] cols = Physics2D.OverlapCircleAll(this.transform.position, Radius);
-
         foreach(Collider2D col in cols)
         {
             if( col.attachedRigidbody == null)
@@ -109,7 +107,7 @@ public class Bullet : NetworkBehaviour
             }
         }
         RpcDoExplosion(this.transform.position);
-
+        TerrainDestroyer.instance.DestroyTerrain(this.transform.position, 2);
         // Destroy(gameObject);
         Die();
     }

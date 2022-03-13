@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 7120630475180826581}
   - component: {fileID: 4089281205892130454}
   - component: {fileID: 5882548655796250819}
+  - component: {fileID: -7774608904754264198}
   m_Layer: 0
   m_Name: PlayerPrefab
   m_TagString: Untagged
@@ -64,3 +65,24 @@ MonoBehaviour:
   syncMode: 0
   syncInterval: 0.1
   TankPrefab: {fileID: 3883254038535263718, guid: 6922c55c01227b74c8d58a5371a3e4f8, type: 3}
+  myTank: {fileID: 0}
+  readyToBegin: 0
+  score: 0
+  playerNum: 0
+--- !u!114 &-7774608904754264198
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7305828644445107205}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b6909a828a23d748bf395d6d717499d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
+  showRoomGUI: 1
+  readyToBegin: 0
+  index: 0

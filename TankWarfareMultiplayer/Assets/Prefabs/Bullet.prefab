@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3886557910156613361}
   - component: {fileID: 3886557910156613367}
   - component: {fileID: 9132130859099456332}
+  - component: {fileID: 2583841237268954091}
   m_Layer: 9
   m_Name: tank_model_1_7_w1
   m_TagString: Untagged
@@ -26,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3886557910156613360}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.753, y: 0.46, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.30660537, y: 0.22858208, z: 1}
   m_Children: []
   m_Father: {fileID: 3886557910525369912}
@@ -90,7 +91,7 @@ CapsuleCollider2D:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3886557910156613360}
-  m_Enabled: 1
+  m_Enabled: 0
   m_Density: 1
   m_Material: {fileID: 0}
   m_IsTrigger: 0
@@ -99,6 +100,22 @@ CapsuleCollider2D:
   m_Offset: {x: 0.01505856, y: -0.02020022}
   m_Size: {x: 1.4940214, y: 0.81836313}
   m_Direction: 1
+--- !u!58 &2583841237268954091
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3886557910156613360}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: -0.05121186}
+  serializedVersion: 2
+  m_Radius: 0.667681
 --- !u!1 &3886557910525370309
 GameObject:
   m_ObjectHideFlags: 0

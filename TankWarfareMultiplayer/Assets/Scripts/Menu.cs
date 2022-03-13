@@ -36,19 +36,29 @@ public class Menu : MonoBehaviour
 
     public void SetIP(string ip)
     {
-        networkManager.networkAddress = ip;
+        hostIP = ip.ToString();
+        //networkManager.networkAddress = ip;
     }
 
-    public void SetPort(string hostPort)
+    public void SetPort(string hostPort1)
     {
-        networkManager.networkPort = ushort.Parse(hostPort);
+        //networkManager.networkPort = ushort.Parse(hostPort1);
+        hostPort = hostPort1.ToString();
     }
 
     public void Join()
     {
-        networkManager.StartClient();
+        Debug.Log(hostPort);
+        Debug.Log(hostIP);
+        networkManager.InitClient();
         isHost = false;
         isClient = true;
+
+       networkManager.networkAddress = hostIP;
+        networkManager.networkPort = ushort.Parse(hostPort);
+        //Debug.Log(networkManager.networkAddress);
+       // Debug.Log(networkManager.networkPort);
+        networkManager.StartClient();
         menuPanel.SetActive(false);
     }
 
@@ -78,7 +88,8 @@ public class Menu : MonoBehaviour
     void GUIClient()
     {
         if (!networkManager.isNetworkActive)
-        {
+        { 
+            /*
             // Text boxes for entering host's address
             GUI.Label(new Rect(10, 10, 150, 22), "Host IP:");
             hostIP = GUI.TextField(new Rect(170, 10, 420, 22), hostIP);
@@ -99,6 +110,8 @@ public class Menu : MonoBehaviour
             {
                 isClient = false;
             }
+            */
+            
         }
         else if (networkManager.client != null)
         {
@@ -136,14 +149,16 @@ public class Menu : MonoBehaviour
                 networkManager.StartHost();
             }
             */
-
+            
             // Client button
+            /*
             if (GUI.Button(new Rect(10, 50, 100, 30), "Client"))
             {
                 networkManager.InitClient();
                 isHost = false;
                 isClient = true;
             }
+            */
         }
         else
 
@@ -154,6 +169,7 @@ public class Menu : MonoBehaviour
         }
           
     }
+    
 
 
 
@@ -162,7 +178,7 @@ public class Menu : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-       // networkManager = (NobleNetworkManager)NetworkManager.singleton;
+       networkManager = (NobleNetworkManager)NetworkManager.singleton;
         menuPanel.SetActive(true);
     }
 

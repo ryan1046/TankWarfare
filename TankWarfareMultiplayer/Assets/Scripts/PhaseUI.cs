@@ -32,11 +32,22 @@ public class PhaseUI : MonoBehaviour
 
         if(gameManager.matchHasFinished == true)
         {
-            Player[] players = GameObject.FindObjectsOfType<Player>();
-            if (players[0].playerNum == 1)
-                text.text = "Player 2 Won, Press enter for another round";
-            else
-                text.text = "Player 1 Won, Press enter for another round";
+            Player[] players = gameManager.GetAllPlayer();
+
+            if (players[0].myTank != null)
+            {
+                if (players[0].playerNum == 2)
+                    text.text = "Player 1 Won, Press enter for another round";
+                if (players[0].playerNum == 1)
+                    text.text = "Player 2 Won, Press enter for another round";
+            }
+            if (players[1].myTank != null)
+            {
+                if (players[1].playerNum == 2)
+                    text.text = "Player 1 Won, Press enter for another round";
+                if (players[1].playerNum == 1)
+                    text.text = "Player 2 Won, Press enter for another round";
+            }
             return;
         }
         text.text = gameManager.PlayerPhase;

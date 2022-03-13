@@ -83,6 +83,10 @@ public class Tank : NetworkBehaviour
             transform.position = Vector3.SmoothDamp(transform.position, serverPosition,ref serverPositionSmoothVelocity , 0.25f);
         }
 
+        Vector3 euler = transform.eulerAngles;
+        if (euler.z > 180) euler.z = euler.z - 360;
+        euler.z = Mathf.Clamp(euler.z, -45, 45);
+        transform.eulerAngles = euler;
         TurretPivot.localRotation = Quaternion.Euler(0, 0, turretAngle);
 
     }
@@ -116,15 +120,26 @@ public class Tank : NetworkBehaviour
 
 
         float movement = Input.GetAxis("Horizontal") * Speed * Time.deltaTime;
-
+        float jumpVelocity = 1.2f;
         
+        //float Jump = Input.GetAxis("Horizontal") * jumpVelocity * Time.deltaTime;
+
+
         if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
         {
             movement *= 0.1f;
         }
+        float jump = Input.GetAxis("Vertical") * Speed * Time.deltaTime; ;
 
 
-        transform.Translate(movement, 0, 0);
+        if(Input.GetKey(KeyCode.UpArrow))
+        {
+
+          jump *= jumpVelocity;
+        }
+
+
+        transform.Translate(movement, jump, 0);
         //Flip(movement);
         CmdUpdatePosition(transform.position);
 

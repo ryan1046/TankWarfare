@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Tilemaps;
 using Mirror;
 
 
@@ -10,6 +11,7 @@ public class GameManager : NetworkBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
         //StartNewMatch();
         //Note: Start() runs before anyone connects to a server
     }
@@ -24,6 +26,15 @@ public class GameManager : NetworkBehaviour
 
 
     [SyncVar]
+    int _Round = 1;
+    public int Round
+    {
+        get { return _Round; }
+        set { _Round = value; }
+    }
+
+
+    [SyncVar]
     string _PlayerPhase = null;
     public string PlayerPhase
     {
@@ -31,7 +42,7 @@ public class GameManager : NetworkBehaviour
         set { _PlayerPhase = value; }
     }
 
-
+    //public static GameManager Instance;
 
     public enum TURNSTATE { MOVE, SHOOT, RESOLVE}
 
@@ -48,6 +59,9 @@ public class GameManager : NetworkBehaviour
     [SyncVar, System.NonSerialized]
     bool matchHasStarted = false;
 
+    
+
+
     [SyncVar, System.NonSerialized]
     public bool matchHasFinished = false;
 
@@ -63,11 +77,17 @@ public class GameManager : NetworkBehaviour
     public GameObject NextGame;
 
     public GameObject NewTurnAnimationPrefab;
+    
+    public GameObject terrain;
+
+
+  
+
 
     // Update is called once per frame
     void Update()
     {
-       
+      
         if (isServer == false)
         {
             return;
@@ -85,9 +105,20 @@ public class GameManager : NetworkBehaviour
         {
             if (matchHasStarted == false)
             {
+
                 return;
             }
             matchHasFinished = true;
+            if (Round == 3)
+            {
+
+                Debug.Log("GAME OVER");
+                if (Input.GetKey(KeyCode.Return))
+                 {
+                    NetworkManager.singleton.StopHost();
+                    NetworkManager.singleton.StopClient();
+                }
+            }
             if (Input.GetKey(KeyCode.Return))
             {
                 /*  Debug.Log("New Game");
@@ -273,20 +304,38 @@ public class GameManager : NetworkBehaviour
 
     public void ResetGame()
     {
-        Player[] players = GameObject.FindObjectsOfType<Player>();
-        Tank[] tanks = GetAllTanks();
-        foreach (Tank tank in tanks)
-        {
-            tank.DestroyTank();
-        }
-        matchHasStarted = false;
-        matchHasFinished = false;
-        TimeLeft = 3;
-        foreach (Player player in players)
-        {
-            player.DestroyTank();
-            player.SpawnTank();
-        }
+        //Application.LoadLevel(Application.loadedLevel);
+        // SceneManager.LoadScene("Game");
+        //Destroy(gameObject);
+        Round += 1;
+         terrain.GetComponent<TerrainDestroyer>().RestartMap();
+         Player[] players = GameObject.FindObjectsOfType<Player>();
+         Tank[] tanks = GetAllTanks();
+         foreach (Tank tank in tanks)
+         {
+             tank.DestroyTank();
+         }
+         matchHasStarted = false;
+         matchHasFinished = false;
+         TimeLeft = 3;
+        /*
+         foreach (Player player in players)
+         {
+             player.DestroyTank();
+             player.SpawnTank();
+         }
+        */
+
+        players[1].DestroyTank();
+        players[0].DestroyTank();
+        players[1].SpawnTank();
+
+       
+        players[0].SpawnTank();
+
+
+
+
 
     }
 
@@ -310,13 +359,26 @@ public class GameManager : NetworkBehaviour
     {
         matchHasStarted = true;
         TurnNumber = 0;
-
-        Tank[] tanks = GetAllTanks();
-        tanks[0].ChangePosition(new Vector3(8, -3, 0));
-        tanks[1].ChangePosition(new Vector3(-8, -3, 0));
-        Player[] players = GameObject.FindObjectsOfType<Player>();
+     
+        //tanks[0].transform.position= new Vector3(-16, 9, 0); 
+        // tanks[1].transform.position = new Vector3(29, 4, 0);
+     
+        Player[] players = GetAllPlayer();
         players[0].setPlayer(1);
         players[1].setPlayer(2);
+
+       /*foreach (Player player in players)
+        {
+         
+            player.SpawnTank();
+        }
+       */
+       
+        Tank[] tanks = GetAllTanks();
+        tanks[1].ChangePosition(new Vector3(-16, 11, 0));
+        tanks[0].ChangePosition(new Vector3(29, 5, 0));
+     
+
         tanks[0].tankTurn = false;
         
         tanks[1].tankTurn = true;
@@ -394,6 +456,11 @@ public class GameManager : NetworkBehaviour
     Tank[] GetAllTanks()
     {
         return GameObject.FindObjectsOfType<Tank>();
+    }
+
+    public Player[] GetAllPlayer()
+    {
+        return GameObject.FindObjectsOfType<Player>();
     }
 
     bool IsPhaseLocked()
