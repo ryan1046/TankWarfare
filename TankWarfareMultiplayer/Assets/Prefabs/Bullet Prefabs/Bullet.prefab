@@ -203,6 +203,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
+  armTime: 1
   Radius: 0.65
   Damage: 20
   DamageFallsOff: 1
