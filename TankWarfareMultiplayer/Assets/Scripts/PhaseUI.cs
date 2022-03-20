@@ -1,4 +1,4 @@
-using System.Collections;
+ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -16,6 +16,9 @@ public class PhaseUI : MonoBehaviour
     Text text;
 
 
+    public int Playernum;
+
+
     // Update is called once per frame
     void Update()
     {
@@ -30,27 +33,53 @@ public class PhaseUI : MonoBehaviour
 
 
 
-        if(gameManager.matchHasFinished == true)
-        {
-            Player[] players = gameManager.GetAllPlayer();
+        /* if(gameManager.matchHasFinished == true)
+         {
+             Player[] players = gameManager.GetAllPlayer();
 
-            if (players[0].myTank != null)
+             if (players[0].myTank != null)
+             {
+                 if (players[0].playerNum == 2)
+                     text.text = "Player 1 Won, Press enter for another round";
+                 if (players[0].playerNum == 1)
+                     text.text = "Player 2 Won, Press enter for another round";
+             }
+             if (players[1].myTank != null)
+             {
+                 if (players[1].playerNum == 2)
+                     text.text = "Player 1 Won, Press enter for another round";
+                 if (players[1].playerNum == 1)
+                     text.text = "Player 2 Won, Press enter for another round";
+             }
+             return;
+         }
+        */
+        if (gameManager.matchHasFinished == true)
+        {
             {
-                if (players[0].playerNum == 2)
-                    text.text = "Player 1 Won, Press enter for another round";
-                if (players[0].playerNum == 1)
+                Player[] players = gameManager.GetAllPlayer();
+                foreach (Player player in players)
+                {
+                    if (player.myTank != null)
+                    {
+                        Playernum = player.playerNum;
+                    }
+                }
+             if (Playernum == 1)
+                {
                     text.text = "Player 2 Won, Press enter for another round";
-            }
-            if (players[1].myTank != null)
-            {
-                if (players[1].playerNum == 2)
+                }
+             if (Playernum == 2)
+                {
                     text.text = "Player 1 Won, Press enter for another round";
-                if (players[1].playerNum == 1)
-                    text.text = "Player 2 Won, Press enter for another round";
+                }
+             return;
             }
-            return;
         }
-        text.text = gameManager.PlayerPhase;
+
+
+
+            text.text = gameManager.PlayerPhase;
 
     }
 }

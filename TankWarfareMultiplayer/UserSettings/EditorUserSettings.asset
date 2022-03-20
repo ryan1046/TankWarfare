@@ -6,30 +6,33 @@ EditorUserSettings:
   serializedVersion: 4
   m_ConfigSettings:
     RecentlyUsedScenePath-0:
-      value: 2242470311464675020c00275000501e18121b3e63052f223f260f7cc7f83535f2eb33faa8143a282e0dfd37293f0f3ef50f1b44d3130b060102f84e3cf602011ed756d014c10b05
-      flags: 0
-    RecentlyUsedScenePath-1:
-      value: 22424703114646680e0b0227036c6c1313191d1501292f3e002c1326a2b17a2decee22f0
-      flags: 0
-    RecentlyUsedScenePath-2:
       value: 22424703114646680e0b0227036c6c1313191d1500272429633c133af6f9
       flags: 0
-    RecentlyUsedScenePath-3:
+    RecentlyUsedScenePath-1:
       value: 2242470311464675020c00275000501e18121b3e63052f223f260f7cc7f83535f2eb33faa816303e3b1ba0191c3f0c2ffe0f4927f9090812513dfe0b1ffa5e061fcc0cdc
       flags: 0
-    RecentlyUsedScenePath-4:
-      value: 22424703114646680e0b0227036c6c1313191d15002724323467083debf42d
-      flags: 0
-    RecentlyUsedScenePath-5:
+    RecentlyUsedScenePath-2:
       value: 22424703114646680e0b0227036c6b15050311242b6812353f3b1c3aecae2136ebf32f
       flags: 0
-    RecentlyUsedScenePath-6:
+    RecentlyUsedScenePath-3:
       value: 22424703114646680e0b0227036c6c111b07142f1f2b233e2867083debf42d
       flags: 0
+    RecentlyUsedScenePath-4:
+      value: 22424703114646680e0b0227036c6c1313191d151a212524223b040cd1e33136e7a923e7ee2e26
+      flags: 0
+    RecentlyUsedScenePath-5:
+      value: 22424703114646680e0b0227036c6c1313191d15002724323467083debf42d
+      flags: 0
+    RecentlyUsedScenePath-6:
+      value: 22424703114646680e0b0227036c6c1313191d1501292f3e002c1326a2b17a2decee22f0
+      flags: 0
     RecentlyUsedScenePath-7:
-      value: 22424703114646680e0b0227036c78111b12563f22213229
+      value: 22424703114646680e0b0227036c6c1313191d151a212524223b047df7ee3d2cfb
       flags: 0
     RecentlyUsedScenePath-8:
+      value: 22424703114646680e0b0227036c78111b12563f22213229
+      flags: 0
+    RecentlyUsedScenePath-9:
       value: 22424703114646680e0b0227036c6c1313191d1501292f3e002c1326acf53a31f6fe
       flags: 0
     vcSharedLogLevel:

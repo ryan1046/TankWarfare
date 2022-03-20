@@ -7,8 +7,12 @@ using Mirror;
 
 public class PlayerLobby : NetworkBehaviour
 {
-    [SyncVar]
-    public GameObject myTank;
+   // [SyncVar]
+   // public GameObject myTank;
+
+   // public GameObject currentTank;
+
+   
 
 
     bool hasSpawned = false;
@@ -19,7 +23,11 @@ public class PlayerLobby : NetworkBehaviour
     public Player myPlayer;
 
     [SyncVar]
-    public int tankNum;
+    public int tankNum = 1;
+
+
+    [SyncVar]
+    public int mapNum = 1;
 
 
     // Start is called before the first frame update
@@ -56,7 +64,8 @@ public class PlayerLobby : NetworkBehaviour
                     {
                         myPlayer.setPlayer(1);
                     }
-                    ChangePlayerTank();
+                    myPlayer.ChangeMyTank(tankNum);
+                    myPlayer.ChangeMyMap(mapNum);
                     myPlayer.SpawnTank();
                     hasSpawned = true;
                 }
@@ -74,16 +83,48 @@ public class PlayerLobby : NetworkBehaviour
     }
 
     [Command]
-    public void ChangeTank(GameObject newTank, int i)
+    public void ChangeMap(int i)
     {
-        tankNum = i;
-        myTank = newTank;
+        mapNum = i;
     }
 
-    [Command]
+
+
+    //[Server]
+    // [Command(requiresAuthority = false)]
+    // [Server]
+    [Command(requiresAuthority = false)]
+    public void ChangeTank( int i)
+    {
+        //Debug.Log(newTank + "playerlobby");
+        tankNum = i;
+       //currentTank = newTank;
+       // myTank = newTank;
+       // TankChange(currentTank);
+       // RPCTankChange(currentTank);
+    }
+
+    // [Server]
+    [Command(requiresAuthority = false)]
+    public void TankChange(GameObject newTank)
+    {
+      //  currentTank = newTank;
+    }
+
+
+    [ClientRpc]
+    public void RPCTankChange(GameObject newTank)
+    {
+       // currentTank = newTank;
+
+    }
+
+
+
+    [Command(requiresAuthority = false)]
     public void ChangePlayerTank()
     {
-        myPlayer.ChangeTank(myTank);
+      //  myPlayer.ChangeTank(myTank);
     }
 
 

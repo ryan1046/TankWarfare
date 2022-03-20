@@ -15,13 +15,13 @@ public class Bullet : NetworkBehaviour
         }
     }
 
-  
 
 
 
+    public float armTime = 3;
     Rigidbody2D rb;
 
-    public float Radius = 1f;
+    public float Radius = 2f;
     public float Damage = 10f;
     public bool DamageFallsOff = true;
     public Tank SourceTank;
@@ -42,9 +42,11 @@ public class Bullet : NetworkBehaviour
         rb.rotation = angle;
         }
 
+     
 
-        if( isServer == true)
+        if ( isServer == true)
         {
+            armTime -= 1;
             LifeSpan -= Time.deltaTime;
             if(LifeSpan <= 0)
             {
@@ -77,7 +79,7 @@ public class Bullet : NetworkBehaviour
 
     void OnTriggerEnter2D(Collider2D collider)
     {
-        if(isServer == false)
+        if(isServer == false || armTime > 0)
         {
             return;
         }
@@ -106,12 +108,29 @@ public class Bullet : NetworkBehaviour
                
             }
         }
+       
         RpcDoExplosion(this.transform.position);
-        TerrainDestroyer.instance.DestroyTerrain(this.transform.position, 2);
+        //terrainDestroyer.instance.DestroyTerrain(this.transform.position, 2);
+       
+            DestroyTerrain(this.transform.position, 2);
+        
+       
+            RPCDestroyTerrain(this.transform.position, 2);
+        
         // Destroy(gameObject);
         Die();
     }
 
+    void DestroyTerrain(Vector3 location, int radius)
+    {
+        TerrainDestroyer.instance.DestroyTerrain(location, radius);
+    }
+
+    [ClientRpc]
+    void RPCDestroyTerrain(Vector3 location, int radius)
+    {
+        TerrainDestroyer.instance.DestroyTerrain(location, radius);
+    }
 
       void Die()
     {

@@ -10,13 +10,15 @@ public class Health : NetworkBehaviour
     {
         if(isServer)
         {
-            Hitpoints = 100;
+            Hitpoints = Hits;
         }    
     }
 
 
     [SyncVar]
-    float Hitpoints;
+     float Hitpoints;
+
+    public float Hits;
 
     // Update is called once per frame
     void Update()

@@ -64,7 +64,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   syncMode: 0
   syncInterval: 0.1
-  TankPrefab: {fileID: 3883254038535263718, guid: 6922c55c01227b74c8d58a5371a3e4f8, type: 3}
+  TankPrefab: {fileID: 8923671297930687059, guid: 47e65c9ed3145be468dc3c64c5c3fe65, type: 3}
+  BalancePrefab: {fileID: 5102811160930846103, guid: 85908f88948c0174590909a990a61e58, type: 3}
+  SpeedPrefab: {fileID: 5202907969249273835, guid: 1d1990c5af02ee24ab807464d74e70cf, type: 3}
+  HeavyPrefab: {fileID: 3405571195189647847, guid: c3499e12fe783ba49af1b0bf86aae96d, type: 3}
   myTank: {fileID: 0}
   readyToBegin: 0
   score: 0

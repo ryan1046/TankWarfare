@@ -18,10 +18,11 @@ public class Tank : NetworkBehaviour
     float MovementLeft;
     private bool facingRight;
 
-    float Speed = 5;
+    public float Speed = 5;
     float TurretSpeed = 180;
     float TurretPowerSpeed = 10;
 
+  
 
     public GameObject CurrentBulletPrefab;
     public Transform TurretPivot;
@@ -42,7 +43,9 @@ public class Tank : NetworkBehaviour
     [SyncVar]
     Vector3 serverPosition;
 
-   
+
+
+
 
 
     Vector3 serverPositionSmoothVelocity;
@@ -78,9 +81,22 @@ public class Tank : NetworkBehaviour
 
 
 
-            if ( hasAuthority == false)
+        if ( hasAuthority == false || tankTurn == false)
         {
-            transform.position = Vector3.SmoothDamp(transform.position, serverPosition,ref serverPositionSmoothVelocity , 0.25f);
+           // RpcFixPosition(transform.position);
+           // transform.position = Vector3.SmoothDamp(transform.position, serverPosition,ref serverPositionSmoothVelocity , 0.25f);
+            if(!hasAuthority)
+            {
+               // RpcFixPosition(Vector3.SmoothDamp(transform.position, serverPosition, ref serverPositionSmoothVelocity, 0.25f));
+            }
+            // RpcFixPosition(transform.position);
+            //RpcFixPosition(Vector3.SmoothDamp(transform.position, serverPosition, ref serverPositionSmoothVelocity, 0.25f));
+            // ChangePosition(Vector3.SmoothDamp(transform.position, serverPosition, ref serverPositionSmoothVelocity, 0.25f));
+            //ChangePosition(transform.position);
+
+
+            CmdUpdatePosition(Vector3.SmoothDamp(transform.position, serverPosition, ref serverPositionSmoothVelocity, 0.25f));
+            //RpcFixPosition(Vector3.SmoothDamp(transform.position, serverPosition, ref serverPositionSmoothVelocity, 0.25f));
         }
 
         Vector3 euler = transform.eulerAngles;
@@ -212,13 +228,18 @@ public class Tank : NetworkBehaviour
             Vector3 theScale = transform.localScale;
             theScale.x *= -1;
             transform.localScale = theScale;
+            float turretMovement = Input.GetAxis("TurretHorizontal") * TurretSpeed * Time.deltaTime;
+            turretAngle = Mathf.Clamp(turretAngle + turretMovement, 0, 180);
+            CmdChangeTurretAngle(turretAngle);
+
             ChangePosition(theScale);
-            //CmdUpdatePosition(transform.position);
+            CmdUpdatePosition(transform.position);
 
         }
     }
 
 
+    [Command(requiresAuthority = false)]
     public void ChangePosition(Vector3 newPosition)
     {
         CmdUpdatePosition(newPosition);

@@ -7,21 +7,24 @@ using Mirror;
 public class TerrainDestroyer : NetworkBehaviour
 {
 
+    //[SyncVar]
     public Tilemap terrain;
 
-   
-    public static TerrainDestroyer instance;
 
     //public static TerrainDestroyer instance;
 
-   // [Command(requiresAuthority = false)]
+ 
+
+    public static TerrainDestroyer instance;
+
+   //[Command(requiresAuthority = false)]
     void Awake()
     {
         instance = this;
         //instance = TerrainDestroyer.FindObjectOfType<TerrainDestroyer>();
     }
 
-
+    //[Command(requiresAuthority = false)]
     public void DestroyTerrain(Vector3 explosionLocation, float radius)
     {
         /*
@@ -44,6 +47,7 @@ public class TerrainDestroyer : NetworkBehaviour
                 Vector3Int tilePos = terrain.WorldToCell(explosionLocation + new Vector3(x, y, 0));
                 if(terrain.GetTile(tilePos) != null)
                 {
+                    Debug.Log(tilePos);
                     DestroyTile(tilePos);
                     RpcDestroyTile(tilePos);
                 }
@@ -52,15 +56,18 @@ public class TerrainDestroyer : NetworkBehaviour
         
     }
 
-    [Command(requiresAuthority = false)]
+   //[Command(requiresAuthority = false)]
     void DestroyTile(Vector3Int tilePos)
     {
+        Debug.Log("Tile hit");
         terrain.SetTile(tilePos, null);
+        
     }
 
     [ClientRpc]
     void RpcDestroyTile(Vector3Int tilePos)
     {
+        Debug.Log("Tile Client hit");
         terrain.SetTile(tilePos, null);
     }
 
