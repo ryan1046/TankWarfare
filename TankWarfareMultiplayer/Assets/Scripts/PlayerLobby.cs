@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Mirror;
-using Mirror;
+
 
 public class PlayerLobby : NetworkBehaviour
 {
@@ -66,6 +66,7 @@ public class PlayerLobby : NetworkBehaviour
                     }
                     myPlayer.ChangeMyTank(tankNum);
                     myPlayer.ChangeMyMap(mapNum);
+                    new WaitForSeconds(10f);
                     myPlayer.SpawnTank();
                     hasSpawned = true;
                 }

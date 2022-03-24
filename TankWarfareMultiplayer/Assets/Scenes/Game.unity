@@ -1316,9 +1316,9 @@ MonoBehaviour:
   terrain: {fileID: 0}
   currentMap: {fileID: 5391571759658217599, guid: 952c2fa1e225bdf48b87c24adb13be0b, type: 3}
   myMap: {fileID: 0}
-  iceMap: {fileID: 576870500116924547, guid: a1052faadcd589b46906bf38199a372a, type: 3}
-  desertMap: {fileID: 8731164459350154757, guid: 1b8aa22cc4315374d8aeda74f4b725c1, type: 3}
-  floatMap: {fileID: 5391571759658217599, guid: 952c2fa1e225bdf48b87c24adb13be0b, type: 3}
+  iceMap: {fileID: 7979999014664439606, guid: a1052faadcd589b46906bf38199a372a, type: 3}
+  desertMap: {fileID: 2275586286435783088, guid: 1b8aa22cc4315374d8aeda74f4b725c1, type: 3}
+  floatMap: {fileID: 3201328744792932298, guid: 952c2fa1e225bdf48b87c24adb13be0b, type: 3}
   MapNum: 0
 --- !u!114 &745480964
 MonoBehaviour:

@@ -52,7 +52,7 @@ public class Player : NetworkBehaviour
     [SyncVar]
     public bool readyToBegin;
 
-    [SyncVar]
+
     public Transform SpawnLocation;
 
 
@@ -115,12 +115,21 @@ public class Player : NetworkBehaviour
         //myTank = Instantiate(TankPrefab);
 
         //NetworkManager.GetStartPosition();
-        if (SpawnLocation == null)
+        GameObject GM;
+        //new WaitForSeconds(4f);
+        //SpawnLoc(NetworkManager.singleton.GetStartPosition());
+        if (playerNum == 2)
         {
-            SpawnLoc(NetworkManager.singleton.GetStartPosition());
+             GM = GameObject.Find("Spawn1");
+        }
+        else
+        {
+            GM = GameObject.Find("Spawn2");
         }
         SpawnMyTank();
-        myTank = Instantiate(currentTank, SpawnLocation.transform.position, Quaternion.Euler(0, 0, 0));
+        //myTank = Instantiate(currentTank, SpawnLocation.transform.position, Quaternion.Euler(0, 0, 0));
+        //myTank = Instantiate(currentTank, NetworkManager.singleton.GetStartPosition().transform.position, Quaternion.Euler(0, 0, 0));
+        myTank = Instantiate(currentTank, GM.transform.position, Quaternion.Euler(0, 0, 0));
 
 
         //myTank = Instantiate(currentTank);
