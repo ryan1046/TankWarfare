@@ -107,7 +107,7 @@ public class GameManager : NetworkBehaviour
     [SyncVar]
     public int MapNum;
 
-    bool scoreAdded = false;
+
 
 
 
@@ -146,15 +146,10 @@ public class GameManager : NetworkBehaviour
         {
             if (matchHasStarted == false)
             {
-                
+
                 return;
             }
             matchHasFinished = true;
-            if(scoreAdded == false)
-            {
-                AddScore();
-                scoreAdded = true;
-            }
             Player[] players = GetAllPlayer();
             foreach (Player player in players)
             {
@@ -362,12 +357,11 @@ public class GameManager : NetworkBehaviour
         // SceneManager.LoadScene("Game");
         //Destroy(gameObject);
         Round += 1;
-
         Player[] players = GetAllPlayer();
         // terrain.GetComponent<TerrainDestroyer>().RestartMap();
         Destroy(myMap);
         loadMap();
-      
+        AddScore();
         Tank[] tanks = GetAllTanks();
          foreach (Tank tank in tanks)
          {
@@ -376,27 +370,19 @@ public class GameManager : NetworkBehaviour
          matchHasStarted = false;
          matchHasFinished = false;
          TimeLeft = 3;
-        
+        /*
          foreach (Player player in players)
          {
              player.DestroyTank();
-           //  player.SpawnTank();
+             player.SpawnTank();
          }
-
-        /*foreach (Player player in players)
-        {
-           // player.DestroyTank();
-            player.SpawnTank();
-            new WaitForSeconds(2f);
-        }
         */
+
         players[1].DestroyTank();
         players[0].DestroyTank();
         players[1].SpawnTank();
-        new WaitForSeconds(4f);
+         new WaitForSeconds(2f);
         players[0].SpawnTank();
-        scoreAdded = false; ;
-
 
 
 
@@ -442,8 +428,8 @@ public class GameManager : NetworkBehaviour
         // tanks[1].transform.position = new Vector3(29, 4, 0);
      
         Player[] players = GetAllPlayer();
-        //players[0].setPlayer(1);
-        //players[1].setPlayer(2);
+        players[0].setPlayer(1);
+        players[1].setPlayer(2);
 
         /*foreach (Player player in players)
          {
@@ -452,10 +438,7 @@ public class GameManager : NetworkBehaviour
          }
         */
         Debug.Log("IF sTATEMENT");
-       // currentMap = floatMap;
-      //  players[1].SpawnTank();
-      //  new WaitForSeconds(4f);
-      //  players[0].SpawnTank();
+        currentMap = floatMap;
 
 
         Tank[] tanks = GetAllTanks();

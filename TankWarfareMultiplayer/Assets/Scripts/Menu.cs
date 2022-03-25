@@ -12,6 +12,25 @@ public class Menu : MonoBehaviour
     public GameObject menuPanel;
 
 
+    //TESTING LEADERBOARD
+    /*
+    public PlayfabManager PFM;
+    public int points = 1;
+    public void OnClickUpdateLeaderBeard()
+    {
+        PFM = FindObjectOfType<PlayfabManager>();
+        Debug.Log("CRY");
+        PFM.SendLeaderBoard(points);
+        points++;
+    }
+
+    public void OnClickGetLeaderBoard()
+    {
+        Debug.Log("TEARS");
+        PFM.GetLeaderBoard();
+    }
+    */
+
     // The relay ip and port from the GUI text box
     string hostIP = "";
     string hostPort = "";

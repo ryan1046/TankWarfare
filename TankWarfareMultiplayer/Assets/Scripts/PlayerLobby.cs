@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using Mirror;
-
+using Mirror;
 
 public class PlayerLobby : NetworkBehaviour
 {
@@ -28,9 +28,6 @@ public class PlayerLobby : NetworkBehaviour
 
     [SyncVar]
     public int mapNum = 1;
-
-    [SyncVar]
-    public int score;
 
 
     // Start is called before the first frame update
@@ -67,10 +64,8 @@ public class PlayerLobby : NetworkBehaviour
                     {
                         myPlayer.setPlayer(1);
                     }
-                    myPlayer.setLobbyPlayer(this);
                     myPlayer.ChangeMyTank(tankNum);
                     myPlayer.ChangeMyMap(mapNum);
-                    new WaitForSeconds(10f);
                     myPlayer.SpawnTank();
                     hasSpawned = true;
                 }
@@ -80,13 +75,6 @@ public class PlayerLobby : NetworkBehaviour
         }
 
     }
-
-    public void updateScore(int newScore)
-    {
-        score = newScore;
-    }
-
-
 
     [Command]
     public void changePlayer(Player player)

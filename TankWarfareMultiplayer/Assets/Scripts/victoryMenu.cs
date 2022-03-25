@@ -5,22 +5,17 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Mirror;
 
-public class victoryMenu : NetworkBehaviour
+public class victoryMenu : MonoBehaviour
 {
 
     public GameObject win;
     public GameObject lose;
-
-
-    Text text;
-
     //Player[] players;
 
     // Start is called before the first frame update
     void Start()
     {
 
-        text = win.GetComponent<Text>();
     }
 
     // Update is called once per frame
@@ -36,55 +31,31 @@ public class victoryMenu : NetworkBehaviour
     //[ClientRpc]
     void changeVictory()
     {
-        PlayerLobby[] players = GameObject.FindObjectsOfType<PlayerLobby>();
+        Player[] players = GameObject.FindObjectsOfType<Player>();
 
-        
+        {
 
-            foreach (PlayerLobby player in players)
+            foreach (Player player in players)
             {
 
-                 if (player.hasAuthority) 
-                  {
-
-                      if (player.score >= 3)
-                      {
-                          // win.SetActive(true);
-                          // lose.SetActive(false);
-                          
-                          text.text = "You won";
-                          return;
-                      }
-                      else
-                      {
-                          //win.SetActive(false);
-                          //lose.SetActive(true);
-                          text.text = "You lost";
-                      }
-
-                  }
-                
-                /*
-                if (isServer)
+                if (player.isLocalPlayer) ;
                 {
-                   
-                        if (player.score >= 3)
-                        {
-                            text.text = "You won";
-                            return;
-                        }
-                        else
-                        {
-                            text.text = "You lost";
-                        }
-                    
 
+                    if (player.score >= 3)
+                    {
+                        win.SetActive(true);
+                        lose.SetActive(false);
+                        return;
+                    }
+                    else
+                    {
+                        win.SetActive(false);
+                        lose.SetActive(true);
+                    }
 
                 }
-                */
-               
             }
-        
-        
+        }
     }
 
 
