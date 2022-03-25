@@ -5,17 +5,22 @@ using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using Mirror;
 
-public class victoryMenu : MonoBehaviour
+public class victoryMenu : NetworkBehaviour
 {
 
     public GameObject win;
     public GameObject lose;
+
+
+    Text text;
+
     //Player[] players;
 
     // Start is called before the first frame update
     void Start()
     {
-        
+
+        text = win.GetComponent<Text>();
     }
 
     // Update is called once per frame
@@ -31,31 +36,55 @@ public class victoryMenu : MonoBehaviour
     //[ClientRpc]
     void changeVictory()
     {
-        Player[] players = GameObject.FindObjectsOfType<Player>();
+        PlayerLobby[] players = GameObject.FindObjectsOfType<PlayerLobby>();
 
-        {
+        
 
-            foreach (Player player in players)
+            foreach (PlayerLobby player in players)
             {
 
-                if (player.isLocalPlayer) ;
-                {
+                 if (player.hasAuthority) 
+                  {
 
-                    if (player.score >= 3)
-                    {
-                        win.SetActive(true);
-                        lose.SetActive(false);
-                        return;
-                    }
-                    else
-                    {
-                        win.SetActive(false);
-                        lose.SetActive(true);
-                    }
+                      if (player.score >= 3)
+                      {
+                          // win.SetActive(true);
+                          // lose.SetActive(false);
+                          
+                          text.text = "You won";
+                          return;
+                      }
+                      else
+                      {
+                          //win.SetActive(false);
+                          //lose.SetActive(true);
+                          text.text = "You lost";
+                      }
+
+                  }
+                
+                /*
+                if (isServer)
+                {
+                   
+                        if (player.score >= 3)
+                        {
+                            text.text = "You won";
+                            return;
+                        }
+                        else
+                        {
+                            text.text = "You lost";
+                        }
+                    
+
 
                 }
+                */
+               
             }
-        }
+        
+        
     }
 
 

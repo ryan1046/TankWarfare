@@ -22,11 +22,17 @@ public class Tank : NetworkBehaviour
     float TurretSpeed = 180;
     float TurretPowerSpeed = 10;
 
-  
+    public float MaxPower = 20;
 
     public GameObject CurrentBulletPrefab;
     public Transform TurretPivot;
     public Transform BulletSpawnPoint;
+    public GameObject aimArrow;
+
+
+    public GameObject activeArrow;
+
+
 
     static public Tank LocalTank{ get; protected set; }
 
@@ -43,12 +49,13 @@ public class Tank : NetworkBehaviour
     [SyncVar]
     Vector3 serverPosition;
 
+    [SyncVar]
+    Quaternion serverRotation;
 
 
 
 
-
-    Vector3 serverPositionSmoothVelocity;
+   Vector3 serverPositionSmoothVelocity;
 
 
    // [SyncVar]
@@ -72,13 +79,20 @@ public class Tank : NetworkBehaviour
 
         if( hasAuthority && tankTurn == true)
         {
-
+            
             LocalTank = this;
 
             AuthorityUpdate();
+            
         }
-       
-
+        if(tankTurn == true)
+        {
+            CmdActiveArrow(true);
+        }
+        if(tankTurn == false)
+        {
+            CmdActiveArrow(false);
+        }
 
 
         if ( hasAuthority == false || tankTurn == false)
@@ -94,8 +108,9 @@ public class Tank : NetworkBehaviour
             // ChangePosition(Vector3.SmoothDamp(transform.position, serverPosition, ref serverPositionSmoothVelocity, 0.25f));
             //ChangePosition(transform.position);
 
-
+            aimArrow.SetActive(false);
             CmdUpdatePosition(Vector3.SmoothDamp(transform.position, serverPosition, ref serverPositionSmoothVelocity, 0.25f));
+            CmdUpdateRotation(serverRotation);
             //RpcFixPosition(Vector3.SmoothDamp(transform.position, serverPosition, ref serverPositionSmoothVelocity, 0.25f));
         }
 
@@ -171,6 +186,7 @@ public class Tank : NetworkBehaviour
 
     void AuthorityUpdateShooting()
     {
+        aimArrow.SetActive(true);
 
         if (TankIsLockedIn == true || gameManager.TankCanShoot(this) == false)
         {
@@ -192,13 +208,14 @@ public class Tank : NetworkBehaviour
             powerChange *= 0.1f;
         }
 
-        turretPower = Mathf.Clamp(turretPower + powerChange, 0, 20);
+        turretPower = Mathf.Clamp(turretPower + powerChange, 0, MaxPower);
         CmdSetTurretPower(turretPower);
 
-
+        UpdateAimArrow();
 
         if (Input.GetKeyUp(KeyCode.Space))
         {
+           
             TankIsLockedIn = true;
             CmdLockIn();
 
@@ -217,6 +234,7 @@ public class Tank : NetworkBehaviour
             return;
         }
         Vector2 velocity = new Vector2(turretPower * Mathf.Cos(turretAngle * Mathf.Deg2Rad), turretPower * Mathf.Sin(turretAngle * Mathf.Deg2Rad));
+        aimArrow.SetActive(false);
         CmdFireBullet(BulletSpawnPoint.position, velocity);
     }
 
@@ -224,16 +242,24 @@ public class Tank : NetworkBehaviour
     {
         if(horizontal > 0 && !facingRight || horizontal < 0 && facingRight)
         {
+            
+            Quaternion theScale = transform.localRotation;
+            if (facingRight)
+            {
+                theScale.y = 1;
+            }
+            if (facingRight == false)
+            {
+                theScale.y = 180;
+            }
             facingRight = !facingRight;
-            Vector3 theScale = transform.localScale;
-            theScale.x *= -1;
-            transform.localScale = theScale;
+            transform.localRotation = theScale;
             float turretMovement = Input.GetAxis("TurretHorizontal") * TurretSpeed * Time.deltaTime;
             turretAngle = Mathf.Clamp(turretAngle + turretMovement, 0, 180);
             CmdChangeTurretAngle(turretAngle);
 
-            ChangePosition(theScale);
-            CmdUpdatePosition(transform.position);
+            ChangeRotation(theScale);
+           // CmdUpdatePosition(transform.position);
 
         }
     }
@@ -244,6 +270,13 @@ public class Tank : NetworkBehaviour
     {
         CmdUpdatePosition(newPosition);
         RpcFixPosition(newPosition);
+    }
+
+    [Command(requiresAuthority = false)]
+    public void ChangeRotation(Quaternion newPosition)
+    {
+        CmdUpdateRotation(newPosition);
+        RpcFixRotation(newPosition);
     }
 
 
@@ -263,12 +296,26 @@ public class Tank : NetworkBehaviour
     }
 
 
+    void UpdateAimArrow()
+    {
+        aimArrow.transform.rotation = Quaternion.AngleAxis(turretAngle, Vector3.forward);
+        aimArrow.transform.localScale = new Vector2(turretPower / 12, turretPower / 12);
+    }
+
+
 
 
     [Command]
     void CmdLockIn()
     {
         TankIsLockedIn = true;
+    }
+
+
+   // [Command(requiresAuthority = false)]
+    void CmdActiveArrow(bool activeState)
+    {
+        activeArrow.SetActive(activeState);
     }
 
 
@@ -314,6 +361,16 @@ public class Tank : NetworkBehaviour
 
 
     [Command(requiresAuthority = false)] // THIS IS BAD WE NEED TO BE CHANGE ALLOWES FOR CHEATING (TELEPORTING)
+    public void CmdUpdateRotation(Quaternion newPosition)
+    {
+        if (gameManager.TankCanMove(this) == false)
+        {
+            //SHOULD NOT MOVE
+        }
+        serverRotation = newPosition;
+    }
+
+    [Command(requiresAuthority = false)] // THIS IS BAD WE NEED TO BE CHANGE ALLOWES FOR CHEATING (TELEPORTING)
     public void CmdUpdateFacing(Vector3 newFacing)
     {
 
@@ -329,6 +386,13 @@ public class Tank : NetworkBehaviour
     void RpcFixPosition( Vector3 newPosition)
     {
         transform.position = newPosition;
+    }
+
+
+    [ClientRpc]
+    void RpcFixRotation(Quaternion newPosition)
+    {
+        transform.rotation = newPosition;
     }
 
 
